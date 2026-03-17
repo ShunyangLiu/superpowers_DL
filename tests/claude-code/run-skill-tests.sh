@@ -51,6 +51,7 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Tests:"
             echo "  test-experiment-design.sh     Test experiment-design skill guidance"
+            echo "  test-experiment-closeout.sh   Test experiment-closeout skill guidance"
             echo "  test-training-debugging.sh    Test training-debugging skill guidance"
             exit 0
             ;;
@@ -65,6 +66,7 @@ done
 # List of skill tests to run (fast unit tests)
 tests=(
     "test-experiment-design.sh"
+    "test-experiment-closeout.sh"
     "test-training-debugging.sh"
 )
 
@@ -142,6 +144,8 @@ for test in "${tests[@]}"; do
     fi
 
     echo ""
+
+    sleep 2
 done
 
 # Print summary

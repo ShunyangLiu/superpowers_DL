@@ -30,7 +30,8 @@ Use process skills before doing work:
 4. `experiment-execution` when carrying out the plan
 5. `training-debugging` for NaNs, divergence, OOMs, metric mismatches, or other failures
 6. `result-analysis` when runs finish and you need to compare evidence
-7. `reproducibility-check` before claiming an improvement or handing results to others
+7. `experiment-closeout` when a run has ended and you must decide whether to keep or revert the code changes
+8. `reproducibility-check` before claiming an improvement or handing results to others
 
 ## Red Flags
 
@@ -47,5 +48,6 @@ Stop and load the relevant skill if you catch yourself thinking:
 - Hypothesis before code
 - Baseline and success metric before conclusions
 - Smallest falsifiable experiment first
+- Explicit keep-or-revert decision after each experiment
 - Evidence attached to every claim
 - Negative results recorded, not hidden

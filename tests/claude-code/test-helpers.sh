@@ -11,7 +11,7 @@ run_claude() {
     local allowed_tools="${3:-}"
     local output_file=$(mktemp)
     local attempts=0
-    local max_attempts=2
+    local max_attempts=5
 
     local cmd=(
         claude
@@ -28,6 +28,10 @@ run_claude() {
         attempts=$((attempts + 1))
 
         if timeout "$timeout" "${cmd[@]}" > "$output_file" 2>&1; then
+            if [ ! -s "$output_file" ] && [ "$attempts" -lt "$max_attempts" ]; then
+                sleep 2
+                continue
+            fi
             cat "$output_file"
             rm -f "$output_file"
             return 0

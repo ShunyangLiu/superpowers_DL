@@ -1,0 +1,5 @@
+The experiment is finished and the validation metric did not improve.
+
+I had to change the model code and training config to run it. I do not want those failed changes to accidentally affect the next experiment.
+
+Please help me decide whether to keep or revert the code changes, and make sure the failed experiment is recorded so we do not repeat it blindly.

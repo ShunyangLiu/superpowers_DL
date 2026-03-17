@@ -19,6 +19,7 @@ The repository provides a set of composable skills that agents can discover and 
 - `experiment-execution` for carrying out the plan without losing provenance
 - `training-debugging` for NaNs, divergence, OOMs, metric mismatches, and other training failures
 - `result-analysis` for comparing baselines, ablations, and reruns
+- `experiment-closeout` for deciding whether code changes should be kept or reverted after a run
 - `reproducibility-check` for verifying claims before sharing numbers
 - `paper-to-implementation` for translating papers into local experiments
 - `using-superpowers` for enforcing skill-first behavior at session start
@@ -31,7 +32,8 @@ The repository provides a set of composable skills that agents can discover and 
 4. Use `experiment-execution` to implement and run the smallest decisive experiment first.
 5. Use `training-debugging` when the run misbehaves.
 6. Use `result-analysis` to decide what the evidence supports.
-7. Use `reproducibility-check` before claiming improvement.
+7. Use `experiment-closeout` to ask whether to keep or revert the code changes and archive failed runs.
+8. Use `reproducibility-check` before claiming improvement.
 
 ## Installation
 
@@ -72,6 +74,7 @@ The repository still includes `.claude-plugin/` and `.cursor-plugin/` metadata f
 - Hypothesis before implementation
 - Smallest falsifiable experiment first
 - Baselines must be fair
+- Failed experiments should be archived before their code is discarded
 - Evidence beats intuition
 - Reproducibility beats storytelling
 

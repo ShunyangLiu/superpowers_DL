@@ -12,6 +12,7 @@ SKILLS=(
     "experiment-planning"
     "training-debugging"
     "result-analysis"
+    "experiment-closeout"
     "reproducibility-check"
     "paper-to-implementation"
 )
