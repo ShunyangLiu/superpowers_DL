@@ -1,0 +1,3 @@
+The experiment is done and the results are documented. I decided to discard the code changes because the rotary embedding idea did not improve validation loss.
+
+Please clean up the experiment branch and worktree so the main branch stays clean.

@@ -45,14 +45,16 @@ flowchart TD
   A[论文想法或模型改动] --> B[paper-to-implementation]
   B --> C[experiment-design]
   C --> D[experiment-planning]
-  D --> E[experiment-execution]
-  E --> F{训练或运行出问题?}
-  F -- 是 --> G[training-debugging]
-  G --> E
-  F -- 否 --> H[result-analysis]
-  H --> I[experiment-closeout]
-  I --> J[reproducibility-check]
-  J --> K[对外汇报或进入下一轮实验]
+  D --> E[experiment-worktree]
+  E --> F[experiment-execution]
+  F --> G{训练或运行出问题?}
+  G -- 是 --> H[training-debugging]
+  H --> F
+  G -- 否 --> I[result-analysis]
+  I --> J[experiment-closeout]
+  J --> K[finishing-experiment-branch]
+  K --> L[reproducibility-check]
+  L --> M[对外汇报或进入下一轮实验]
 ```
 
 1. `paper-to-implementation`
@@ -61,15 +63,19 @@ flowchart TD
    在动代码前锁定假设、baseline、指标、数据假设和算力预算。
 3. `experiment-planning`
    把设计落成明确的代码改动、sanity check、运行步骤和产物保存要求。
-4. `experiment-execution`
+4. `experiment-worktree`
+   创建隔离的 git worktree，确保实验代码改动不影响主分支。
+5. `experiment-execution`
    按计划执行，控制变量，保留过程证据。
-5. `training-debugging`
+6. `training-debugging`
    系统化处理 NaN、发散、OOM、指标异常等训练问题。
-6. `result-analysis`
+7. `result-analysis`
    对 baseline、ablation 和 rerun 做保守分析，判断证据真正支持什么。
-7. `experiment-closeout`
+8. `experiment-closeout`
    每轮实验后明确决定代码保留还是回滚。
-8. `reproducibility-check`
+9. `finishing-experiment-branch`
+   执行实验分支的合并、推送、暂停或丢弃操作，并清理 worktree。
+10. `reproducibility-check`
    在宣称改进前，核对命令、配置、seed、commit、数据版本、产物和指标表。
 
 在支持的平台上，`using-superpowers` 会在会话开始时注入，尽早把研究任务路由到合适的流程里。
@@ -81,10 +87,12 @@ flowchart TD
 | `paper-to-implementation` | 拆出论文的核心改动与隐藏前提，并映射到本地代码。 |
 | `experiment-design` | 把模糊想法整理成可证伪的实验卡片。 |
 | `experiment-planning` | 输出包含文件、命令、检查项和产物要求的执行计划。 |
+| `experiment-worktree` | 在实验改动前创建隔离的 git worktree。 |
 | `experiment-execution` | 先实现并运行最小、最关键的验证实验。 |
 | `training-debugging` | 定位并证明训练故障的根因。 |
 | `result-analysis` | 保守比较 baseline、ablation 和 rerun，决定下一步。 |
 | `experiment-closeout` | 判断实验代码应该保留还是回滚。 |
+| `finishing-experiment-branch` | 合并、推送、暂停或丢弃实验分支，并清理 worktree。 |
 | `reproducibility-check` | 用证据链约束性能宣称。 |
 | `using-superpowers` | 在会话开始时强制进入 skill-first 工作方式。 |
 

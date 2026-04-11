@@ -1,0 +1,5 @@
+I am about to start implementing changes for the attention-heads ablation experiment.
+
+The experiment plan is ready and I want to make sure my changes are isolated from the main branch so I can easily revert if the experiment fails.
+
+Please set up an isolated workspace for this experiment.

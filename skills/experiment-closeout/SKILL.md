@@ -37,16 +37,25 @@ If the tree was already dirty, isolate the experiment on a branch or record the 
    - why the result is considered failed, flat, or unreliable
    - `do not repeat unless ...`
 5. If the user chooses `keep`:
-   - leave the code in place
+   - if a worktree is active, use `finishing-experiment-branch` with the "keep" or
+     "keep + PR" option to merge the experiment branch
+   - if no worktree, leave the code in place
    - record that retention decision in the note
    - use `reproducibility-check` before making a performance claim
 6. If the user chooses `discard`:
    - write the note first
-   - revert experiment changes to the recorded start state
-   - if the experiment began from a clean tree, restore or reset to the start commit
-   - if the experiment began from a dirty tree, restore only the experiment-touched files
+   - if a worktree is active, use `finishing-experiment-branch` with the "discard"
+     option to delete the branch and clean up the worktree
+   - if no worktree, revert experiment changes to the recorded start state:
+     - if the experiment began from a clean tree, restore or reset to the start commit
+     - if the experiment began from a dirty tree, restore only the experiment-touched files
    - verify the post-revert git state before moving on
-7. Report three things:
+7. If the user chooses `pause`:
+   - write or update the note with status "paused"
+   - if a worktree is active, use `finishing-experiment-branch` with the "pause"
+     option to preserve the worktree
+   - report that the experiment can be resumed later
+8. Report three things:
    - whether code was kept or discarded
    - where the experiment note lives
    - what state the workspace is now in

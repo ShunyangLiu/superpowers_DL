@@ -45,14 +45,16 @@ flowchart TD
   A[Paper idea or model change] --> B[paper-to-implementation]
   B --> C[experiment-design]
   C --> D[experiment-planning]
-  D --> E[experiment-execution]
-  E --> F{Training or run issue?}
-  F -- Yes --> G[training-debugging]
-  G --> E
-  F -- No --> H[result-analysis]
-  H --> I[experiment-closeout]
-  I --> J[reproducibility-check]
-  J --> K[Share claim or plan next experiment]
+  D --> E[experiment-worktree]
+  E --> F[experiment-execution]
+  F --> G{Training or run issue?}
+  G -- Yes --> H[training-debugging]
+  H --> F
+  G -- No --> I[result-analysis]
+  I --> J[experiment-closeout]
+  J --> K[finishing-experiment-branch]
+  K --> L[reproducibility-check]
+  L --> M[Share claim or plan next experiment]
 ```
 
 1. `paper-to-implementation`
@@ -61,15 +63,19 @@ flowchart TD
    Lock the hypothesis, baseline, metric, dataset assumptions, and compute budget before coding.
 3. `experiment-planning`
    Turn the design into concrete code changes, sanity checks, runs, and artifact capture.
-4. `experiment-execution`
+4. `experiment-worktree`
+   Create an isolated git worktree so experiment code changes do not affect the main branch.
+5. `experiment-execution`
    Execute the plan while keeping changes controlled and provenance intact.
-5. `training-debugging`
+6. `training-debugging`
    Handle NaNs, divergence, OOMs, inconsistent metrics, and other failures systematically.
-6. `result-analysis`
+7. `result-analysis`
    Decide what the evidence supports across baselines, ablations, and reruns.
-7. `experiment-closeout`
+8. `experiment-closeout`
    Make an explicit keep-or-revert decision after the run.
-8. `reproducibility-check`
+9. `finishing-experiment-branch`
+   Handle the git mechanics of merging, pushing, pausing, or discarding the experiment branch.
+10. `reproducibility-check`
    Verify the command, config, seeds, commit, dataset version, artifacts, and metric table before making a claim.
 
 `using-superpowers` is injected at session start on supported platforms so research tasks route into the right workflow early.
@@ -81,10 +87,12 @@ flowchart TD
 | `paper-to-implementation` | Separate a paper's core intervention from hidden assumptions and map it into local code. |
 | `experiment-design` | Convert a rough idea into a falsifiable experiment card. |
 | `experiment-planning` | Produce an execution plan with exact files, commands, checks, and saved artifacts. |
+| `experiment-worktree` | Create an isolated git worktree before experiment changes. |
 | `experiment-execution` | Implement and run the smallest decisive experiment first. |
 | `training-debugging` | Isolate and prove the root cause of training failures. |
 | `result-analysis` | Compare baselines and reruns conservatively and decide next actions. |
 | `experiment-closeout` | Decide whether experiment-specific code should stay or be reverted. |
+| `finishing-experiment-branch` | Merge, push, pause, or discard an experiment branch and clean up the worktree. |
 | `reproducibility-check` | Gate performance claims on attached evidence. |
 | `using-superpowers` | Enforce skill-first behavior at the start of a session. |
 

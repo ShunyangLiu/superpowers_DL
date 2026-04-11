@@ -27,11 +27,13 @@ Use process skills before doing work:
 1. `paper-to-implementation` for a paper idea or reproduction request
 2. `experiment-design` before proposing changes to model, loss, data, augmentation, training, or evaluation
 3. `experiment-planning` once the hypothesis and design are approved
-4. `experiment-execution` when carrying out the plan
-5. `training-debugging` for NaNs, divergence, OOMs, metric mismatches, or other failures
-6. `result-analysis` when runs finish and you need to compare evidence
-7. `experiment-closeout` when a run has ended and you must decide whether to keep or revert the code changes
-8. `reproducibility-check` before claiming an improvement or handing results to others
+4. `experiment-worktree` to create an isolated workspace before making experiment changes
+5. `experiment-execution` when carrying out the plan (calls `experiment-worktree` automatically)
+6. `training-debugging` for NaNs, divergence, OOMs, metric mismatches, or other failures
+7. `result-analysis` when runs finish and you need to compare evidence
+8. `experiment-closeout` when a run has ended and you must decide whether to keep or revert the code changes (calls `finishing-experiment-branch` for git cleanup)
+9. `finishing-experiment-branch` to merge, push, pause, or discard an experiment branch
+10. `reproducibility-check` before claiming an improvement or handing results to others
 
 ## Red Flags
 
