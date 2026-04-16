@@ -146,6 +146,7 @@ Report three things:
 - Never force-delete a branch without typed "discard" confirmation.
 - Never clean up a worktree for the Pause option.
 - Never proceed if the experiment note does not exist.
+- Before removing a worktree, check `.experiment-metadata.json` for `symlinked_data`. Verify that listed paths are symlinks (`[ -L <path> ]`), not real directories. `git worktree remove` deletes symlinks safely (targets are untouched), but never `rm -rf` a worktree directory manually — use `git worktree remove` to avoid accidentally following symlinks into real data.
 
 ## Integration
 

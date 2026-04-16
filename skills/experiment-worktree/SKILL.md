@@ -73,8 +73,34 @@ Auto-detect and run the appropriate setup in priority order:
 After dependency setup:
 
 - Check CUDA availability: `python -c "import torch; print(torch.cuda.is_available())"` (skip if torch is not installed).
-- Verify data directory symlinks are accessible from the worktree. Common patterns: `data/`, `datasets/`, paths in `.env` or config files.
-- If symlinks or data paths are broken, report and ask whether to proceed.
+
+### Dataset Symlink
+
+Large datasets must **never** be copied into the worktree. Instead, create symbolic links
+pointing back to the original project directory so every worktree shares the same data on disk.
+
+**Detection** — scan the **main project root** (not the worktree) for data directories in priority order:
+
+1. Paths listed in config files (`.env`, `config.yaml`, `*.toml` `[data]` sections, etc.).
+2. Common convention directories: `data/`, `datasets/`, `raw_data/`, `processed_data/`.
+3. Any top-level directory that is gitignored **and** larger than 100 MB.
+
+**Creation** — for every detected data directory `<dir>`:
+
+```bash
+# <project_root> is the absolute path of the main (non-worktree) checkout
+ln -s <project_root>/<dir> .worktrees/<topic>/<dir>
+```
+
+- If `<dir>` already exists in the worktree (because it is tracked), skip it and warn.
+- If `<dir>` is itself a symlink in the main project, resolve it first (`readlink -f`) and link to the resolved target.
+- After linking, verify the symlink is accessible: `ls <linked_path> > /dev/null`.
+
+**Record** — add a `"symlinked_data"` array to `.experiment-metadata.json` listing every
+path that was symlinked, so `finishing-experiment-branch` knows not to delete real data
+during cleanup.
+
+If no data directories are found, report that no dataset symlinks were created and ask whether the experiment needs data that should be linked manually.
 
 ## Sanity Verification
 
@@ -94,6 +120,7 @@ Write `.worktrees/<topic>/.experiment-metadata.json` so that a future session ca
   "base_commit": "<hash>",
   "tree_was_clean": true,
   "environment_tool": "pip",
+  "symlinked_data": ["data/", "datasets/raw"],
   "created_at": "<ISO-8601>"
 }
 ```
